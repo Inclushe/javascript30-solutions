@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  var canvas = document.querySelector("canvas#draw")
+  var ctx = canvas.getContext("2d")
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+  ctx.strokeStyle = "#BADA55"
+  ctx.lineJoin = "round"
+  ctx.lineCap = "round"
+  ctx.lineWidth = 70;
+
+  var isDrawing = false
+  var lastX = 0
+  var lastY = 0
+  var hue = 0
+  var direction = true
+
+  function draw(e) {
+    if (!isDrawing) return
+    console.log(e)
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+    ctx.beginPath()
+    ctx.moveTo(lastX, lastY)
+    console.log(e)
+    if (e.touches)
+      ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY)
+    else
+      ctx.lineTo(e.offsetX, e.offsetY)
+    ctx.stroke()
+    if (e.touches)
+      var lastX = e.touches[0].clientX, lastY = e.touches[0].clientY
+    else
+      var lastX = e.offsetX, lastY = e.offsetY
+    hue++
+    if (hue >= 360) hue = 0
+    if (ctx.lineWidth >= 80 || ctx.lineWidth <= 20) {
+      direction = !direction
+    }
+    if (direction) {
+      ctx.lineWidth++
+    }
+    else {
+      ctx.lineWidth--
+    }
+  }
+
+  canvas.addEventListener('mousemove', draw)
+  canvas.addEventListener('touchmove', function (e) {
+    e.preventDefault()
+    draw(e)})
+  canvas.addEventListener('mousedown', function (e) {
+    isDrawing = true
+    var lastX = e.offsetX, lastY = e.offsetY
+  })
+  canvas.addEventListener('touchstart', function (e) {
+    e.preventDefault()
+    isDrawing = true
+    console.log(e)
+    var lastX = e.touches[0].clientX, lastY = e.touches[0].clientY
+  })
+  canvas.addEventListener('mouseup', function () {isDrawing = false})
+  canvas.addEventListener('mouseout', function () {isDrawing = false})
+  canvas.addEventListener('touchend', function (e) {
+    e.preventDefault()
+    isDrawing = false
+    })
+  canvas.addEventListener('touchcancel', function (e) {
+    isDrawing = false})
+
+</script>
+
+<style>
+  html, body {
+    margin:0;
+    padding: 0;
+    overflow: hidden
+  }
+</style>
+
+</body>
+</html>
