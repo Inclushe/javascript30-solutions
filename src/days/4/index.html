@@ -31,29 +31,56 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-
+    var filtered = inventors.filter(function (value) {
+      if (value.year >= 1500 && value.year < 1600)
+        return true
+    })
+    //console.table(filtered)
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
-
+    var mapped = inventors.map(inventor => (inventor.first + " " + inventor.last))
+    //console.log(mapped)
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
-
+    var sorted = inventors.sort((a,b) => {
+      if (a.year > b.year) return 1
+      if (a.year < b.year) return -1
+      return 0
+    })
+    //console.table(sorted)
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
-
+    var reduced_aged = inventors.reduce((total, inventor) => {
+      return total + (inventor.passed - inventor.year)
+    }, 0)
+    //console.log(reduced_aged)
     // 5. Sort the inventors by years lived
-
+    var sort_lived = inventors.sort((a,b) => (a.passed - a.lived) > (b.passed - b.lived) ? -1 : 1)
+    //console.table(sort_lived)
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    var sort_last = people.sort(function (a, b) {
+      var [alast, afirst] = a.split(", ")
+      var [blast, bfirst] = b.split(", ")
+      return alast > blast ? 1 : -1
+    })
+    //console.log(sort_last)
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const transportation = data.reduce(function (obj, item) {
+      if (!obj[item])
+        obj[item] = 0
+      obj[item]++
 
+      return obj
+    }, {})
+    console.log(transportation)
   </script>
 </body>
 </html>
