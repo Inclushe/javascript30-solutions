@@ -10,10 +10,11 @@ var files = {
 
 gulp.task('default', ['sass'], function () {
   bs.init({
-    server: files.serv
+    server: files.serv,
+    https: true
   })
-  gulp.watch(files.sass, ['sass'])
-  gulp.watch([files.html, files.js], bs.reload)
+  bs.watch(files.sass, ['sass'])
+  bs.watch([files.html, files.js], bs.reload)
 })
 
 gulp.task('sass', function () {
